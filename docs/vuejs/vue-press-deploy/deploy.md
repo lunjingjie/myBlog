@@ -62,10 +62,10 @@ cd -
 
 1. 在你的GitHub远程仓库里找到setting
 
-![1](../vuepress/1.png)
+![1](./vuepress/1.png)
 
 2. 一直往下找，找到GitHub Pages选项，在source中选择刚刚提交dist文件的分支 gh-pages，出现提示信息Your site is published at https://<username>.github.io/myBlog/
 
-   ![2](../vuepress/2.png)
+   ![2](./vuepress/2.png)
 
 3. 点击打开链接https://<username>.github.io/<repo>，能成功访问首页则代表部署、配置都成功了。

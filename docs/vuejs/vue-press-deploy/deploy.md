@@ -8,7 +8,7 @@ VuePress 由两部分组成：第一部分是一个[极简静态网站生成器]
 
 ### 快速搭建
 
-```js
+```
 npm create vuepress
 ```
 
@@ -16,9 +16,56 @@ npm create vuepress
 
 ### 目录结构
 
-
-
-```text
 .vuepress/config.js：vue-press的配置文件的文件入口
+
+* 在.vuepress/config.js中设置正确的base（两种情况）：
+
+1. 发布到 https://<USERNAME>.github.io/，则可以省略这一步，因为 base默认即是 "/"。
+2. 发布到 https://<USERNAME>.github.io/<REPO>，则将 base设置为 "/<REPO>/"。
+
+### 部署
+
+部署的流程主要是：把程序打包后，docs/.vuepress/dist的文件提交到github
+
+```
+#!/usr/bin/env sh
+
+# 确保脚本抛出遇到的错误
+set -e
+
+# 生成静态文件
+# 对应package.json文件中的编译打包命令
+npm run build
+
+# 进入生成的文件夹
+cd docs/.vuepress/dist
+
+# 如果是发布到自定义域名
+# echo 'www.example.com' > CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# 如果发布到 https://<USERNAME>.github.io
+# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+
+# 如果发布到 https://<USERNAME>.github.io/<REPO>
+# 新建gh-pages分支
+git push -f https://github.com/<USERNAME>/<REPO>.git master:gh-pages
+
+cd -
+
 ```
 
+### 在GitHub上配置
+
+1. 在你的GitHub远程仓库里找到setting
+
+![image-20200629100742801](C:\Users\a\AppData\Roaming\Typora\typora-user-images\image-20200629100742801.png)
+
+2. 一直往下找，找到GitHub Pages选项，在source中选择刚刚提交dist文件的分支 gh-pages，出现提示信息Your site is published at https://<username>.github.io/myBlog/
+
+   ![image-20200629101008373](C:\Users\a\AppData\Roaming\Typora\typora-user-images\image-20200629101008373.png)
+
+3. 点击打开链接https://<username>.github.io/<repo>，能成功访问首页则代表部署、配置都成功了。
